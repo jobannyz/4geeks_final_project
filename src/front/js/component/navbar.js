@@ -1,17 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Navbar, Image, Nav, DropdownButton, Dropdown } from "react-bootstrap";
+import { Login_user } from "../component/login";
+import { SignUp } from "../component/signup";
 
-export const Navbar = () => {
+export const Navbar_main = () => {
 	return (
-		<nav className="navbar navbar-light bg-light mb-3">
-			<Link to="/">
-				<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-			</Link>
-			<div className="ml-auto">
-				<Link to="/demo">
-					<button className="btn btn-primary">Check the Context in action</button>
+		<Navbar>
+			<Navbar.Brand>
+				<Link to="/">
+					<Image src="https://image.flaticon.com/icons/png/512/34/34859.png" height="60" alt="party" />
 				</Link>
-			</div>
-		</nav>
+			</Navbar.Brand>
+
+			<Nav className="mr-auto">
+				<Link className="nav-link" to="/servicios">
+					Servicios
+				</Link>
+				<Link className="nav-link" to="/acerca">
+					Acerca de nosotros
+				</Link>
+				<Link className="nav-link" to="/contacto">
+					Contáctanos
+				</Link>
+			</Nav>
+			<Nav classname="mr-sm-2">
+				<Login_user />
+				<SignUp />
+			</Nav>
+
+			<DropdownButton id="dropdown-basic-button" title={<i className="fas fa-shopping-cart" />} />
+		</Navbar>
 	);
 };
