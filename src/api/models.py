@@ -27,6 +27,32 @@ class User(db.Model):
     def check_password(self, password):
         return safe_str_cmp(password, self.password)
 
+class Service(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=False, nullable=False)
+    catering_service = db.Column(db.Text)
+    decoracion = db.Column(db.Text)
+    dj = db.Column(db.Text)
+    stock = db.Column(db.Integer)
+    precio = db.Column(db.Integer)
+    client = db.relationship('ShopCart', backref='service', lazy=True)
+    client_order = db.relationship('Ordenes', backref='service', lazy=True)
+    client_recipt = db.relationship('Factura', backref='service', lazy=True)
+
+    def __repr__(self):
+        return '<Service %s>' % self.name
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "stock": self.stock,
+            "precio": self.precio,
+            "decoracion": self.decoracion,
+            "catering_service": self.catering_service,
+            "dj": self.dj
+        }
+
 class ShopCart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -44,26 +70,6 @@ class ShopCart(db.Model):
             "cantidad": self.cantidad,
             "precio": self.precio,
             "service_id": self.service_id
-        }
-
-class Service(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=False, nullable=False)
-    description = db.Column(db.String(250), unique=True)
-    precio = db.Column(db.Integer)
-    client = db.relationship('ShopCart', backref='service', lazy=True)
-    client_order = db.relationship('Ordenes', backref='service', lazy=True)
-    client_recipt = db.relationship('Factura', backref='service', lazy=True)
-
-    def __repr__(self):
-        return '<Service %s>' % self.name
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "precio": self.precio
         }
 
 class Ordenes(db.Model):

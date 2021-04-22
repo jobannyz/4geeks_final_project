@@ -16,15 +16,12 @@ api = Blueprint('api', __name__)
 
 #Devuelve servicios fetch-GET
 
-@api.route('/hello', methods=['GET'])
+@api.route('/', methods=['GET'])
 def get_service():
-    #service = Service.query.all()
-    #all_services = list(map(lambda service: service.serialize(), service))
-    #return jsonify(all_services), 200
-    response_body = {
-        "message": "cualquier cosa"
-    }
-    return jsonify(response_body),200
+    service = Service.query.all()
+    all_services = list(map(lambda service: service.serialize(), service))
+    return jsonify(all_services), 200
+
 
 #*******************************************************************************#
 
