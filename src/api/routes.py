@@ -18,7 +18,7 @@ api = Blueprint('api', __name__)
 
 @api.route('/', methods=['GET'])
 def get_service():
-    service = Service.query.all()
+    service = Service.query.order_by("id")
     all_services = list(map(lambda service: service.serialize(), service))
     return jsonify(all_services), 200
 

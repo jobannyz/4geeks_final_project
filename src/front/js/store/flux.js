@@ -3,7 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			token: "",
 			services: [],
-			favorites: []
+			favorites: [],
+			descripcion: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,10 +47,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(res => res.json())
 					.then(data => {
 						setStore({ services: data });
-						console.log(data);
+						//console.log(data);
 					})
 					.catch(error => console.log(error));
 			},
+
 			addFavorite: (event, name, precio, id) => {
 				fetch("https://3001-amethyst-crawdad-ou8lzqtn.ws-us03.gitpod.io/api/shopCart", {
 					method: "POST",
@@ -67,14 +69,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(result => console.log(getStore().favorites, { id }))
 					.catch(error => console.log("error", error));
 				setStore({ ...getStore(), favorites: [...getStore().favorites, { name }] });
+			},
+
+			setup_service_description: () => {
+				let descripcion = [];
+				let decoracion = [];
+				let dj = [];
+				getStore().services.map((item, index) => {
+					descripcion.push(item.catering_service);
+					decoracion.push(item.decoracion);
+					dj.push(item.dj);
+				});
+				setStore({ descripcion: descripcion });
+
+				let new_descr = `${descripcion[0]}`;
+				let descripcion_detallada = new_descr.split("$");
+				console.log(getStore().services);
+				console.log(descripcion);
+				console.log(decoracion);
+				console.log(dj);
+				console.log(descripcion_detallada);
 			}
-			// getMessage: () => {
-			// 	// fetching data from the backend
-			// 	fetch(process.env.BACKEND_URL + "/api/hello")
-			// 		.then(resp => resp.json())
-			// 		.then(data => setStore({ message: data.message }))
-			// 		.catch(error => console.log("Error loading message from backend", error));
-			// },
 		}
 	};
 };
